@@ -1,0 +1,61 @@
+colors{
+    Primary (Green for freshness): #2E7D32 (rich green)
+    Secondary (Warm accent): #FF7043 (carrot orange)
+    Background: #F9F9F9 (off-white)
+    Cards/Sections: #FFFFFF (pure white)
+    Text Primary: #333333 (dark grey for readability)
+    Text Secondary: #666666 (softer grey)
+    Highlight/Buttons: #FFD54F (warm yellow, feels food-related)
+}
+
+fonts{
+    Headings (logo, section titles): Poppins (bold, modern, clean look)
+    Body text (recipes, descriptions): Roboto or Open Sans (simple, highly readable)
+    Optional for a personal touch (accent headings/quotes): Merriweather (serif, gives a cookbook feel)
+}
+
+layout{
+    navbar{
+        colors{
+            Background: white
+            logo: primary + black
+            options: text Secondary
+        }
+        icons{
+            heart,
+            person
+        }
+    },
+    search_section{
+        colors{
+            Background: primary,
+            title: text primary,
+
+            search_type{
+                title: text primary,
+                subtitle: text secondary,
+                icons{
+                    chef_hat:primary,
+                    apple:red,
+                    heart:highlights
+                }
+            }
+        }
+        options{
+            title,
+
+            search_type{
+                search by name{icon:chef hat},
+                search by ingridents{icon:apple},
+                search by nutritans{icon:heart}
+            },
+
+            search_bar,
+            result_section{
+                title,
+                subtitle,
+                result_cards,
+            }
+        }
+    }
+}
