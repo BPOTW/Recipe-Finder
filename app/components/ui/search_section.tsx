@@ -1,15 +1,47 @@
 "use client"
-import { useState, } from "react";
+import { FormEvent, useState, } from "react";
 import { ListFilterPlus, Search, ChefHat, Apple, Heart} from "lucide-react";
 
-export default function SearchSection() {
-    const [query, setQuery] = useState("");
-    const [selected, setSelected] = useState("apple");
+interface Props {
+    onResults?: (data: { results: any[]; offset?: number; number?: number; totalResults?: number; query?: string }) => void;
+}
 
-   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+export default function SearchSection({ onResults }: Props) {
+        const [query, setQuery] = useState("");
+        const [selected, setSelected] = useState("apple");
+        const [loading, setLoading] = useState(false);
+        const [error, setError] = useState<string | null>(null);
+
+
+     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelected(event.target.value);
   };
-    return (
+         const handleSubmit = async (e: FormEvent) => {
+        e.preventDefault();
+        setError(null);
+    if (!query || query.trim().length === 0) {
+        onResults?.({ results: [], offset: 0, number: 12, totalResults: 0, query: "" });
+            return;
+        }
+
+        try {
+            setLoading(true);
+            const res = await fetch(`/api/search`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data?.error || "Failed to fetch");
+                onResults?.({ results: data.results || [], offset: data.offset ?? 0, number: data.number ?? 12, totalResults: data.totalResults ?? 0, query });
+        } catch (err: any) {
+            setError(err.message || String(err));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+        return (
         <div className="w-[100%] h-100 bg-[var(--primary)] mt-20">
             <div className="w-fit mx-auto pt-15 text-5xl font-bold text-[var(--text-primary-light)] "><p>Discover Amazing Recipes</p></div>
             <div className="w-fit mx-auto mt-3 text-ll font-normal text-[var(--text-secondary-light)] "><p>Find the perfect recipe for any occasion, dietary preference, or craving
@@ -57,7 +89,7 @@ export default function SearchSection() {
                     <span className="absolute inset-y-0 left-0 flex items-center text-[var(--text-secondary-light)] pl-3 ">
                         <Search />
                     </span>
-                    <form onSubmit={() => { }}>
+                        <form onSubmit={handleSubmit}>
                         <input
                             type="text"
                             placeholder="Search"
@@ -71,6 +103,10 @@ export default function SearchSection() {
                     </form>
                 </div>
             </div>
+                            {/* <div className="w-full">
+                                {loading && <div className="mt-4 text-[var(--text-secondary-light)]">Loading...</div>}
+                                {error && <div className="mt-4 text-red-400">{error}</div>}
+                            </div> */}
         </div>
     )
 }

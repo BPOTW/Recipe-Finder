@@ -5,7 +5,7 @@ export default function Instructions({ instructions }: { instructions: AnalyzedI
   const steps = instructions[0]?.steps || [];
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 mb-6 ml-6">
+    <div className="bg-white rounded-xl shadow-md p-6 mb-6 ml-6 w-[60vw]">
       <h2 className="text-xl font-bold text-green-700 mb-3">Instructions</h2>
       <div className="space-y-3">
         {steps.map(step => (

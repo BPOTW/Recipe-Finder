@@ -32,7 +32,7 @@ export default function RecipeHeader({ recipe }: { recipe: recipeData }) {
         </div>
       )}
 
-      <p className="mt-4 text-gray-700">{recipe.summary.replace(/<[^>]*>/g, "")}</p>
+      <p className="mt-4 text-gray-700 w-[60vw]">{recipe.summary.replace(/<[^>]*>/g, "")}</p>
     </div>
   );
 }

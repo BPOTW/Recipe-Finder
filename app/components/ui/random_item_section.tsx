@@ -1,13 +1,13 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { fetchRecipes } from '../lib/fetch';
+import { fetchTopRecipes } from '../lib/fetch';
 import RecipeCard, { Recipe } from './item_card';
 export default function RandomItemSection() {
 const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchRecipes()
+    fetchTopRecipes()
       .then(setRecipes)
       .catch(console.error)
       .finally(() => setLoading(false));
@@ -15,7 +15,7 @@ const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   if (loading) return <p>Loading...</p>;
     return (
-        <div className="w-[98vw] mt-15">
+        <div className="w-[98vw] mt-15 mb-20">
             <div className="text-center text-xl font-semibold"><p>Top Recipes</p></div>
             <div className="text-center text-lg font-medium text-neutral-400 mt-2"><p>Most Popular Recipes Just For You</p></div>
             <div className="w-[95vw] h-fit mt-20 mx-auto grid grid-cols-4 gap-4 ">
